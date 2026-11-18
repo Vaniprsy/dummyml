@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PathSnap Evaluator</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root { --bg:#f6f7f9; --fg:#1b1f24; --card:#fff; --line:#d9dde3; --accent:#1f6feb; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14171b; --fg:#e8eaed; --card:#1d2126; --line:#333a42; --accent:#58a6ff; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.4 system-ui, sans-serif; }
+  header { padding:12px 16px; border-bottom:1px solid var(--line); display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  h1 { font-size:18px; margin:0 12px 0 0; }
+  label { font-size:13px; }
+  input, select, button { font:inherit; padding:6px 10px; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--fg); }
+  button { background:var(--accent); color:#fff; border-color:var(--accent); cursor:pointer; }
+  button:disabled { opacity:.5; cursor:wait; }
+  main { display:grid; grid-template-columns: 320px 1fr; gap:12px; padding:12px 16px; }
+  @media (max-width:800px) { main { grid-template-columns: 1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; }
+  #map { height:70vh; min-height:360px; border-radius:8px; border:1px solid var(--line); }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  td { padding:4px 0; border-bottom:1px solid var(--line); } td:last-child { text-align:right; font-variant-numeric:tabular-nums; }
+  #status { font-size:13px; margin-top:8px; min-height:18px; }
+  .legend span { display:inline-block; width:12px; height:12px; margin-right:6px; vertical-align:middle; border-radius:2px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>PathSnap evaluator</h1>
+  <label>API address <input id="api" size="26" value="http://localhost:8000"></label>
+  <button id="load">Load trips</button>
+  <label>Trip <select id="trip"></select></label>
+  <button id="run" disabled>Run prediction</button>
+</header>
+<main>
+  <section class="card">
+    <strong>Results</strong>
+    <table id="metrics"><tr><td>No trip evaluated yet</td><td></td></tr></table>
+    <div id="status"></div>
+    <p class="legend"><span style="background:#1f6feb"></span>GPS observations<br>
+       <span style="background:#d62728"></span>Predicted route (classifier + HMM)</p>
+  </section>
+  <div id="map"></div>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const map = L.map('map').setView([50, 8.6], 5);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'}).addTo(map);
+let layers = L.layerGroup().addTo(map);
+const base = () => $('api').value.replace(/\/$/, '');
+const pct = v => v == null || Number.isNaN(v) ? 'n/a' : (100 * v).toFixed(2) + '%';
+
+$('load').onclick = async () => {
+  $('status').textContent = 'Contacting API...';
+  try {
+    const r = await fetch(base() + '/trips'); const j = await r.json();
+    $('trip').innerHTML = j.trips.map(t => `<option>${t}</option>`).join('');
+    $('run').disabled = j.trips.length === 0;
+    $('status').textContent = `${j.trips.length} trips available`;
+  } catch (e) { $('status').textContent = 'Cannot reach API: ' + e; }
+};
+
+$('run').onclick = async () => {
+  $('run').disabled = true; $('status').textContent = 'Running the prediction pipeline on the server...';
+  try {
+    const r = await fetch(base() + '/predict', {method:'POST', headers:{'Content-Type':'application/json'},
+                          body: JSON.stringify({trip_id: $('trip').value})});
+    if (!r.ok) throw new Error(r.status + ' ' + await r.text());
+    const j = await r.json(); const m = j.metrics;
+    layers.clearLayers();
+    const pts = L.polyline(j.gps_points, {color:'#1f6feb', weight:2, opacity:.8}).addTo(layers);
+    j.gps_points.forEach(p => L.circleMarker(p, {radius:2, color:'#1f6feb'}).addTo(layers));
+    j.predicted_route.forEach(s => L.polyline(s, {color:'#d62728', weight:4, opacity:.85}).addTo(layers));
+    map.fitBounds(pts.getBounds().pad(0.1));
+    $('metrics').innerHTML = [
+      ['Trip', j.trip_id], ['GPS observations', m.n_obs],
+      ['Accuracy (classifier + HMM)', pct(m.hmm_top1_all)],
+      ['Accuracy (classifier only)', pct(m.classifier_only_top1_all)],
+      ['Route continuity (HMM)', pct(m.hmm_route_continuity)],
+      ['Route continuity (classifier only)', pct(m.classifier_only_route_continuity)],
+      ['Candidate miss rate', pct(m.candidate_miss_rate)],
+      ['Server time', j.elapsed_s + ' s']
+    ].map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+    $('status').textContent = 'Done';
+  } catch (e) { $('status').textContent = 'Error: ' + e; }
+  $('run').disabled = false;
+};
+</script>
+</body>
+</html>

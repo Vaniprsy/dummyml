@@ -1,0 +1,16 @@
+numpy==2.5.5
+pandas==3.1.1
+scipy==1.18.1
+scikit-learn==1.9.1
+joblib==1.6.0
+pyproj==3.8.0
+shapely==2.2.0
+networkx==3.7
+folium==1.0.0
+matplotlib==3.11.2
+fastapi==0.163.2
+uvicorn==0.54.0
+pydantic==2.14.3
+pytest==9.2.0
+optuna==5.1.0
+pyarrow==26.0.1

@@ -1,0 +1,11 @@
+{
+  "model": "hist_gb_tuned",
+  "beta": 10.0,
+  "lam": 8.0,
+  "w": 0.5,
+  "dmax_m": 400.0,
+  "gap_s": 10.0,
+  "candidate_radius_m": 50.0,
+  "max_candidates_per_obs": 15,
+  "tuned_on": "30 train trips, out-of-fold probabilities"
+}

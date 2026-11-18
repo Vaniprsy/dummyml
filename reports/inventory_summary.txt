@@ -1,0 +1,27 @@
+=== train: 80 trips ===
+files per trip: 4 expected; missing-value obs total: 0
+obs/trip   min=361 median=1529 max=19313 total=208417
+nodes/trip min=299 median=9608 max=155003
+arcs/trip  min=649 median=19526 max=307392
+route arcs min=59 median=280 max=2266
+coord order ok: True | timestamps sorted: True | dup timestamps: 0
+% steps exactly 1s: mean=93.83 min=53.07
+largest time gap (s): 153064; trips with a gap >5s: 45
+graph: isolated nodes total=0, trips with >1 weak component=79, min largest-component frac=0.693
+arc/node ids valid in all trips: True
+route ids valid in all trips: True
+route consecutive-arc break fraction: mean=0.0007 max=0.0187
+
+=== student_test: 10 trips ===
+files per trip: 4 expected; missing-value obs total: 0
+obs/trip   min=262 median=1420 max=3958 total=19160
+nodes/trip min=1770 median=6596 max=26635
+arcs/trip  min=3577 median=13145 max=56027
+route arcs min=95 median=250 max=1323
+coord order ok: True | timestamps sorted: True | dup timestamps: 0
+% steps exactly 1s: mean=98.20 min=86.13
+largest time gap (s): 210; trips with a gap >5s: 2
+graph: isolated nodes total=0, trips with >1 weak component=10, min largest-component frac=0.874
+arc/node ids valid in all trips: True
+route ids valid in all trips: True
+route consecutive-arc break fraction: mean=0.0003 max=0.0027

@@ -1,0 +1,8 @@
+prepared network distances for 80+10 trips in 9s
+classifier-only on tuning trips: top1_all=0.7788
+best decoder params: {'beta': 10.0, 'lam': 8.0, 'w': 0.5}
+            partition          method  top1_all  top1_covered  route_continuity  decode_s
+   train_oof_80_trips classifier_only  0.743682      0.838011          0.924317       NaN
+   train_oof_80_trips  classifier+HMM  0.789936      0.890131          0.980971  2.358976
+student_test_10_trips classifier_only  0.839823      0.841272          0.920992       NaN
+student_test_10_trips  classifier+HMM  0.873956      0.875464          0.980366  0.244374

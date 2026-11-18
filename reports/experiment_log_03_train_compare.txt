@@ -1,0 +1,55 @@
+
+=== logreg (Linear) ===
+  fold 0: macroF1=0.8799 top1=0.8077 logloss=0.1604 fit=1s
+  fold 1: macroF1=0.8999 top1=0.8503 logloss=0.1164 fit=1s
+  fold 2: macroF1=0.8398 top1=0.4969 logloss=0.1561 fit=2s
+  fold 3: macroF1=0.8767 top1=0.8197 logloss=0.1402 fit=1s
+  fold 4: macroF1=0.8814 top1=0.7658 logloss=0.1679 fit=1s
+  CV  macroF1=0.8755  top1=0.7481
+  TEST macroF1=0.8912  top1=0.8297  logloss=0.1250  continuity=0.9099
+
+=== gaussian_nb (Probabilistic) ===
+  fold 0: macroF1=0.7601 top1=0.7978 logloss=0.5281 fit=0s
+  fold 1: macroF1=0.7748 top1=0.8343 logloss=0.3706 fit=0s
+  fold 2: macroF1=0.7548 top1=0.4808 logloss=0.5067 fit=0s
+  fold 3: macroF1=0.7719 top1=0.8040 logloss=0.4492 fit=0s
+  fold 4: macroF1=0.7296 top1=0.7377 logloss=0.8531 fit=0s
+  CV  macroF1=0.7582  top1=0.7309
+  TEST macroF1=0.7661  top1=0.7902  logloss=0.5327  continuity=0.9048
+
+=== decision_tree (Tree) ===
+  fold 0: macroF1=0.8941 top1=0.8189 logloss=0.1539 fit=9s
+  fold 1: macroF1=0.9173 top1=0.8639 logloss=0.0887 fit=9s
+  fold 2: macroF1=0.8605 top1=0.5003 logloss=0.1369 fit=9s
+  fold 3: macroF1=0.8956 top1=0.8241 logloss=0.1146 fit=9s
+  fold 4: macroF1=0.8859 top1=0.7702 logloss=0.1533 fit=9s
+  CV  macroF1=0.8907  top1=0.7555
+  TEST macroF1=0.9027  top1=0.8400  logloss=0.1018  continuity=0.9192
+
+=== random_forest (Ensemble (bagging)) ===
+  fold 0: macroF1=0.8964 top1=0.8206 logloss=0.1285 fit=22s
+  fold 1: macroF1=0.9186 top1=0.8634 logloss=0.0809 fit=33s
+  fold 2: macroF1=0.8644 top1=0.5033 logloss=0.1183 fit=25s
+  fold 3: macroF1=0.8978 top1=0.8365 logloss=0.1042 fit=25s
+  fold 4: macroF1=0.8915 top1=0.7711 logloss=0.1315 fit=26s
+  CV  macroF1=0.8937  top1=0.7590
+  TEST macroF1=0.9058  top1=0.8400  logloss=0.0958  continuity=0.9193
+
+=== hist_gb (Boosting) ===
+  fold 0: macroF1=0.8980 top1=0.8204 logloss=0.1332 fit=4s
+  fold 1: macroF1=0.9183 top1=0.8631 logloss=0.0843 fit=4s
+  fold 2: macroF1=0.8626 top1=0.5022 logloss=0.1222 fit=4s
+  fold 3: macroF1=0.9009 top1=0.8340 logloss=0.1054 fit=4s
+  fold 4: macroF1=0.8900 top1=0.7721 logloss=0.1334 fit=3s
+  CV  macroF1=0.8939  top1=0.7583
+  TEST macroF1=0.9028  top1=0.8370  logloss=0.0966  continuity=0.9181
+
+=== mlp (Neural network) ===
+/home/vaniprsy/Documents/pesustuff/ALLLAB/mllab/hackathon/ML-hackathon/.venv/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (25) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  fold 0: macroF1=0.8942 top1=0.8162 logloss=0.1383 fit=37s
+/home/vaniprsy/Documents/pesustuff/ALLLAB/mllab/hackathon/ML-hackathon/.venv/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (25) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  fold 1: macroF1=0.9164 top1=0.8630 logloss=0.0818 fit=86s
+
+NOTE: the MLP run (6th model) was interrupted to free the CPU; its partial output is at the end of experiment_log_03_train_compare.txt and it is not part of model_comparison.csv.

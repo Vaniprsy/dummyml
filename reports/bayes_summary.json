@@ -1,0 +1,18 @@
+{
+  "n_trials": 12,
+  "max_trials": 25,
+  "time_budget_s": 600,
+  "sampler": "Optuna TPE",
+  "seed": 42,
+  "cv": "GroupKFold(5) by trip, 80 train trips",
+  "objective": "mean candidate-level macro-F1",
+  "best_value": 0.8961745404523244,
+  "best_params": {
+    "learning_rate": 0.021146536167031597,
+    "max_iter": 400,
+    "max_leaf_nodes": 109,
+    "min_samples_leaf": 39,
+    "l2_regularization": 0.0008111941985431928
+  },
+  "search_seconds": 688.3148992061615
+}
